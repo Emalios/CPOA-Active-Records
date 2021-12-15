@@ -148,20 +148,24 @@ public class Serie {
 
     public static void createTable() throws SQLException {
         Connection con = DBConnection.getConnection();
-        String SQLPrep = "CREATE TABLE serie (" +
-                "  'ID' int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT," +
-                "  'NOM' varchar(40) NOT NULL," +
-                "  'GENRE' varchar(40) NOT NULL" +
-                ")";
+        String SQLPrep = "CREATE TABLE Serie" +
+                "                   (id int(11) not NULL AUTO_INCREMENT," +
+                "                    nom varchar(40) not NULL," +
+                "                    genre varchar(40) not null, " +
+                "                    PRIMARY KEY ( id ))";
         PreparedStatement prep1 = con.prepareStatement(SQLPrep);
-        prep1.executeQuery();
+        prep1.executeUpdate();
     }
 
     public static void deleteTable() throws SQLException {
+        //besoin de supprimer Personnage avant de supprimer série à cause des contraintes de clés étrangeres
+        try {
+            Personnage.deleteTable();
+        } catch (SQLException ignored) {}
         Connection con = DBConnection.getConnection();
         String SQLPrep = "DROP TABLE serie";
         PreparedStatement prep1 = con.prepareStatement(SQLPrep);
-        prep1.executeQuery();
+        prep1.executeUpdate();
     }
 
     public void delete() throws SQLException {

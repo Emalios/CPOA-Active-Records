@@ -56,22 +56,27 @@ public class Personnage {
     }
 
     public static void createTable() throws SQLException {
+        Serie.createTable();
         Connection con = DBConnection.getConnection();
         String SQLPrep = "CREATE TABLE Personnage (" +
-                "  'ID' int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL," +
-                "  'NOM' varchar(40) NOT NULL," +
-                "  'ID_SERIE' int(11) DEFAULT NULL" +
-                " WITH CONSTRAINT 'personnage_ibfk_1' FOREIGN KEY ('ID_SERIE') REFERENCES 'serie' ('ID')" +
+                "  ID int(11) NOT NULL AUTO_INCREMENT," +
+                "  NOM varchar(40) NOT NULL," +
+                "  ID_SERIE int(11) NOT NULL, " +
+                " PRIMARY KEY ( ID )" +
                 ")";
         PreparedStatement prep1 = con.prepareStatement(SQLPrep);
-        prep1.executeQuery();
+        prep1.executeUpdate();
+        //ajout des contraintes
+        PreparedStatement contrainte = con.prepareStatement("ALTER TABLE personnage" +
+                "  ADD CONSTRAINT personnage_ibfk_1 FOREIGN KEY (ID_SERIE) REFERENCES serie (ID)");
+        contrainte.executeUpdate();
     }
 
     public static void deleteTable() throws SQLException {
         Connection con = DBConnection.getConnection();
         String SQLPrep = "DROP TABLE personnage";
         PreparedStatement prep1 = con.prepareStatement(SQLPrep);
-        prep1.executeQuery();
+        prep1.executeUpdate();
     }
 
     public void delete() throws SQLException {
@@ -80,7 +85,7 @@ public class Personnage {
         String SQLPrep = "DELETE FROM personnage WHERE ID=?";
         PreparedStatement prep1 = con.prepareStatement(SQLPrep);
         prep1.setInt(1, id);
-        prep1.executeQuery();
+        prep1.executeUpdate();
         id = -1;
     }
 
