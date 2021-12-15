@@ -54,4 +54,23 @@ public class PersonnageTest {
         assertEquals(listAll,Personnage.findAll());
     }
 
+    @Test
+    public void testFindById(){
+        int id = p1.getId();
+        assertEquals(p1,Personnage.findById(id));
+    }
+
+    @Test
+    public void testFindBySerie(){
+
+    }
+    @Test
+    public void testFindByName(){
+        String name = p1.getName
+    }
+    @Test
+    public void testFindByGenre(){
+
+    }
+
 }

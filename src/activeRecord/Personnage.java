@@ -179,6 +179,9 @@ public class Personnage {
     public int getId() {
         return id;
     }
+    public String getNom(){
+        return nom;
+    }
 
     /**
      * méthode retournant la Série associé au personnage
