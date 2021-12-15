@@ -1,6 +1,8 @@
 package activeRecord;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Personnage {
@@ -46,6 +48,33 @@ public class Personnage {
             e.printStackTrace();
         }
         return personnage;
+    }
+
+    /**
+     * Se connecte à la base et retourne tous les personnages de la table
+     * @return liste de tous les personnages
+     */
+    public static List<Personnage> findAll() {
+        List<Personnage> personnages = new ArrayList<>();
+        String SQLPrep = "SELECT * FROM Personnage;";
+        try {
+            Connection con = DBConnection.getConnection();
+            PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+            prep1.execute();
+            ResultSet rs = prep1.getResultSet();
+            // s'il y a un resultat
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                int idSerie = rs.getInt("id_serie");
+                int resId = rs.getInt("id");
+                Personnage personnage = new Personnage(resId, nom, idSerie);
+                personnage.id = resId;
+                personnages.add(personnage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personnages;
     }
 
     /**
@@ -97,7 +126,7 @@ public class Personnage {
     }
 
     private void saveNew() throws SQLException {
-        String SQLPrep = "INSERT INTO Personnage (nom, genre) VALUES (?,?)";
+        String SQLPrep = "INSERT INTO Personnage (nom, id_serie) VALUES (?,?)";
         PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
         prep.setString(1, nom);
         prep.setInt(2, idSerie);
