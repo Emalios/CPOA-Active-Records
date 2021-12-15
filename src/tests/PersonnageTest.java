@@ -44,6 +44,7 @@ public class PersonnageTest {
     @After
     public void tearDown() throws SQLException {
         Personnage.deleteTable();
+        Serie.deleteTable();
     }
 
     /**
@@ -69,15 +70,15 @@ public class PersonnageTest {
     @Test
     public void testFindBySerie() throws SerieAbsenteException{
         Serie serie = p1.getSerie();
-        assertEquals(p1,Personnage.findBySerie(serie));
+        assertEquals(List.of(p1, p2),Personnage.findBySerie(serie));
     }
+
     /**
      * Test de la méthode findByName, qui doit retourner tous les Personnages qui ont comme nom la chaîne passée en paramètre
      */
     @Test
     public void testFindByName(){
-        String name = p1.getNom();
-        assertEquals(p1,Personnage.findByName(name));
+        assertEquals(List.of(p1), Personnage.findByName("p1"));
     }
     /**
      * Test de la méthode findByGenre, qui doit retourner tous les Personnages qui jouent dans un film du genre passé en paramètre
@@ -85,7 +86,7 @@ public class PersonnageTest {
     @Test
     public void testFindByGenre() throws SerieAbsenteException {
         String genre = p1.getSerie().getGenre();
-        assertEquals(p1,Personnage.findByGenre(genre));
+        assertEquals(List.of(p1),Personnage.findByGenre(genre));
     }
 
 }
