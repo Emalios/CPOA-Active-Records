@@ -241,6 +241,11 @@ public class Serie {
         return id;
     }
 
+    public String getGenre(){
+        return genre;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -253,4 +258,5 @@ public class Serie {
     public int hashCode() {
         return Objects.hash(id, nom, genre);
     }
+
 }

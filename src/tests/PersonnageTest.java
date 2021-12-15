@@ -54,23 +54,38 @@ public class PersonnageTest {
         assertEquals(listAll,Personnage.findAll());
     }
 
+    /**
+     * Test de la méthode findById, qui doit retourner tous les tuples qui ont dans en id l'entier en paramètre
+     */
     @Test
     public void testFindById(){
         int id = p1.getId();
         assertEquals(p1,Personnage.findById(id));
     }
 
+    /**
+     * Test de la méthode findBySerie, qui doit retourner tous les Personnages qui jouent dans la série passée en paramètre
+     */
     @Test
-    public void testFindBySerie(){
-
+    public void testFindBySerie() throws SerieAbsenteException{
+        Serie serie = p1.getSerie();
+        assertEquals(p1,Personnage.findBySerie(serie));
     }
+    /**
+     * Test de la méthode findByName, qui doit retourner tous les Personnages qui ont comme nom la chaîne passée en paramètre
+     */
     @Test
     public void testFindByName(){
-        String name = p1.getName
+        String name = p1.getNom();
+        assertEquals(p1,Personnage.findByName(name));
     }
+    /**
+     * Test de la méthode findByGenre, qui doit retourner tous les Personnages qui jouent dans un film du genre passé en paramètre
+     */
     @Test
-    public void testFindByGenre(){
-
+    public void testFindByGenre() throws SerieAbsenteException {
+        String genre = p1.getSerie().getGenre();
+        assertEquals(p1,Personnage.findByGenre(genre));
     }
 
 }
