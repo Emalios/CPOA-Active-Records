@@ -1,9 +1,6 @@
 package activeRecord;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Personnage {
 
@@ -48,6 +45,77 @@ public class Personnage {
             e.printStackTrace();
         }
         return personnage;
+    }
+
+    /**
+     * méthode retournant la Série associé au personnage
+     * @return Serie
+     */
+    public Serie getSerie() {
+        return Serie.findById(idSerie);
+    }
+
+    public static void createTable() throws SQLException {
+        Connection con = DBConnection.getConnection();
+        String SQLPrep = "CREATE TABLE Personnage (" +
+                "  'ID' int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL," +
+                "  'NOM' varchar(40) NOT NULL," +
+                "  'ID_SERIE' int(11) DEFAULT NULL" +
+                " WITH CONSTRAINT 'personnage_ibfk_1' FOREIGN KEY ('ID_SERIE') REFERENCES 'serie' ('ID')" +
+                ")";
+        PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+        prep1.executeQuery();
+    }
+
+    public static void deleteTable() throws SQLException {
+        Connection con = DBConnection.getConnection();
+        String SQLPrep = "DROP TABLE personnage";
+        PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+        prep1.executeQuery();
+    }
+
+    public void delete() throws SQLException {
+        if(id == -1) return;
+        Connection con = DBConnection.getConnection();
+        String SQLPrep = "DELETE FROM personnage WHERE ID=?";
+        PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+        prep1.setInt(1, id);
+        prep1.executeQuery();
+        id = -1;
+    }
+
+    public void save() throws SQLException, SerieAbsenteException {
+        if(idSerie == -1) throw new SerieAbsenteException();
+        if(id == -1) saveNew();
+        else update();
+    }
+
+    private void saveNew() throws SQLException {
+        String SQLPrep = "INSERT INTO Personnage (nom, genre) VALUES (?,?)";
+        PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, nom);
+        prep.setInt(2, idSerie);
+        prep.executeUpdate();
+        // recuperation de la derniere ligne ajoutee (auto increment)
+        // recupere le nouvel id
+        int autoInc = -1;
+        ResultSet rs = prep.getGeneratedKeys();
+        if (rs.next()) {
+            autoInc = rs.getInt(1);
+        }
+        id = autoInc;
+    }
+
+    private void update() throws SQLException {
+        String SQLPrep = "UPDATE serie " +
+                "SET nom = ?," +
+                "  id_serie = ?" +
+                "WHERE id = ?";
+        PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, nom);
+        prep.setInt(2, idSerie);
+        prep.setInt(3, id);
+        prep.executeUpdate();
     }
 
 }
