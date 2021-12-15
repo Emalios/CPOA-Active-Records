@@ -3,6 +3,7 @@ package activeRecord;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Classe représentant la table Serie
@@ -213,5 +214,18 @@ public class Serie {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Serie serie = (Serie) o;
+        return id == serie.id && Objects.equals(nom, serie.nom) && Objects.equals(genre, serie.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, genre);
     }
 }
