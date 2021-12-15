@@ -90,9 +90,9 @@ public class Serie {
     }
 
     /**
-     * Se connecte a la base et retourne la serie dont le nom est passe en parametre
-     * @param search nom de la serie
-     * @return serie
+     * Se connecte a la base et retourne les series dont le nom contient la chaine 'search' passé en paramètre
+     * @param search nom contenue dans la serie
+     * @return liste de series
      */
     public static List<Serie> findByName(String search) {
         List<Serie> series = new ArrayList<>();
@@ -120,9 +120,9 @@ public class Serie {
     }
 
     /**
-     * Se connecte a la base et retourne la serie dont le genre est passe en parametre
+     * Se connecte a la base et retourne les series dont le genre est passe en parametre
      * @param genre genre de la serie
-     * @return serie
+     * @return liste de series serie
      */
     public static List<Serie> findByGenre(String genre) {
         List<Serie> series = new ArrayList<>();
@@ -148,6 +148,10 @@ public class Serie {
         return series;
     }
 
+    /**
+     * méthode créant la table Serie dans la base de donnée
+     * @throws SQLException
+     */
     public static void createTable() throws SQLException {
         Connection con = DBConnection.getConnection();
         String SQLPrep = "CREATE TABLE Serie" +
@@ -159,6 +163,10 @@ public class Serie {
         prep1.executeUpdate();
     }
 
+    /**
+     * Méthode supprimant la table Serie dans la base de donnée
+     * @throws SQLException
+     */
     public static void deleteTable() throws SQLException {
         //besoin de supprimer Personnage avant de supprimer série à cause des contraintes de clés étrangeres
         try {
@@ -170,6 +178,10 @@ public class Serie {
         prep1.executeUpdate();
     }
 
+    /**
+     * Méthode supprimant l'instance courrante dans la base de donnée
+     * @throws SQLException
+     */
     public void delete() throws SQLException {
         if(id == -1) return;
         Connection con = DBConnection.getConnection();
@@ -180,11 +192,19 @@ public class Serie {
         id = -1;
     }
 
+    /**
+     * Méthode permattant d'actualiser la base de donnée avec l'instance actuelle de serie
+     * @throws SQLException
+     */
     public void save() throws SQLException {
         if(id == -1) saveNew();
         else update();
     }
 
+    /**
+     * Méthode permattant d'enregister une nouvelle Serie dans la base de donnée
+     * @throws SQLException
+     */
     private void saveNew() throws SQLException {
         String SQLPrep = "INSERT INTO Serie (nom, genre) VALUES (?,?)";
         PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
@@ -201,6 +221,10 @@ public class Serie {
         id = autoInc;
     }
 
+    /**
+     * Méthode permettant de mettre à jour l'instance courrante dans la base de donnée
+     * @throws SQLException
+     */
     private void update() throws SQLException {
         String SQLPrep = "UPDATE serie " +
                 "SET nom = ?," +

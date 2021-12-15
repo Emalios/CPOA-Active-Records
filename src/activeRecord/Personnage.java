@@ -191,6 +191,10 @@ public class Personnage {
         return Serie.findById(idSerie);
     }
 
+    /**
+     * méthode créant la table Personnage dans la base de donnée
+     * @throws SQLException
+     */
     public static void createTable() throws SQLException {
         Serie.createTable();
         Connection con = DBConnection.getConnection();
@@ -208,6 +212,10 @@ public class Personnage {
         contrainte.executeUpdate();
     }
 
+    /**
+     * Méthode supprimant la table Personnage dans la base de donnée
+     * @throws SQLException
+     */
     public static void deleteTable() throws SQLException {
         Connection con = DBConnection.getConnection();
         String SQLPrep = "DROP TABLE personnage";
@@ -215,6 +223,10 @@ public class Personnage {
         prep1.executeUpdate();
     }
 
+    /**
+     * Méthode supprimant l'instance courrante dans la base de donnée
+     * @throws SQLException
+     */
     public void delete() throws SQLException {
         if(id == -1) return;
         Connection con = DBConnection.getConnection();
@@ -225,12 +237,20 @@ public class Personnage {
         id = -1;
     }
 
+    /**
+     * Méthode permattant d'actualiser la base de donnée avec l'instance actuelle de Personnage
+     * @throws SQLException
+     */
     public void save() throws SQLException, SerieAbsenteException {
         if(idSerie == -1) throw new SerieAbsenteException();
         if(id == -1) saveNew();
         else update();
     }
 
+    /**
+     * Méthode permattant d'enregister un nouveau Personnage dans la base de donnée
+     * @throws SQLException
+     */
     private void saveNew() throws SQLException {
         String SQLPrep = "INSERT INTO Personnage (nom, id_serie) VALUES (?,?)";
         PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
@@ -247,6 +267,10 @@ public class Personnage {
         id = autoInc;
     }
 
+    /**
+     * Méthode permettant de mettre à jour l'instance courrante dans la base de donnée
+     * @throws SQLException
+     */
     private void update() throws SQLException {
         String SQLPrep = "UPDATE serie " +
                 "SET nom = ?," +
