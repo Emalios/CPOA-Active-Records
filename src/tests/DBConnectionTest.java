@@ -36,7 +36,7 @@ public class DBConnectionTest {
         connection2 = DBConnection.getConnection();
         DBConnection.setNomDB("testSerie");
         assertNotNull(connection);
-        assertSame("Instances différentes", connection, connection2);
+        assertSame("Les instances devraient être les mêmes", connection, connection2);
     }
 
     @Test
