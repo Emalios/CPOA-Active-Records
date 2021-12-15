@@ -47,7 +47,7 @@ public class PersonnageTest {
     }
 
     /**
-     * Test s'assurant du bon fonctionne de la méthode findAll, censé retourner tous les tuples contenus dans la table Serie
+     * Test s'assurant du bon fonctionne de la méthode findAll, censé retourner tous les tuples contenus dans la table Personnage
      */
     @Test
     public void testFindAll(){

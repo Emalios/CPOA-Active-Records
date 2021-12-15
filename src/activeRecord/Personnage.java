@@ -78,6 +78,71 @@ public class Personnage {
     }
 
     /**
+     * Se connecte a la base et retourne les personnages dont le nom contient ce qui est passe en parametre
+     * @param search nom
+     * @return liste de personnage
+     */
+    public static List<Personnage> findByName(String search) {
+        List<Personnage> personnages = new ArrayList<>();
+        try {
+            // s'il y a un resultat
+            Connection con = DBConnection.getConnection();
+            String SQLPrep = "SELECT * FROM personnage WHERE nom like ?";
+            PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+            prep1.setString(1, "%" + search + "%");
+            prep1.executeQuery();
+            ResultSet rs = prep1.getResultSet();
+            // s'il y a un resultat
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                int idSerie = rs.getInt("id_serie");
+                int resId = rs.getInt("id");
+                Personnage personnage = new Personnage(resId, nom, idSerie);
+                personnage.id = resId;
+                personnages.add(personnage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personnages;
+    }
+
+    /**
+     * Se connecte a la base et retourne les personnages dont le genre est passe en parametre
+     * @param serie serie
+     * @return liste de personnages
+     */
+    public static List<Personnage> findBySerie(Serie serie) throws SerieAbsenteException {
+        List<Personnage> personnages = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            String SQLPrep = "SELECT * FROM Personnage WHERE id_serie=?;";
+            PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+            int serieId = serie.getId();
+            if(serieId == -1) throw new SerieAbsenteException();
+            prep1.setInt(1, serie.getId());
+            prep1.executeQuery();
+            ResultSet rs = prep1.getResultSet();
+            // s'il y a un resultat
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                int idSerie = rs.getInt("id_serie");
+                int resId = rs.getInt("id");
+                Personnage personnage = new Personnage(resId, nom, idSerie);
+                personnage.id = resId;
+                personnages.add(personnage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personnages;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    /**
      * méthode retournant la Série associé au personnage
      * @return Serie
      */
