@@ -36,6 +36,7 @@ public class TestSerie {
 
     @After
     public void tearDown() throws Exception {
+        Serie.deleteTable();
     }
 
     @Test
@@ -43,6 +44,7 @@ public class TestSerie {
         assertEquals(listSeries,Serie.findAll());
     }
 
+    @Test
     public void testFindByName(){
         List<Serie> listSeries2 = new ArrayList<>();
         listSeries.add(serie3);
@@ -50,6 +52,7 @@ public class TestSerie {
         assertEquals(listSeries2,Serie.findByName("3"));
     }
 
+    @Test
     public void testFindByGenre(){
         List<Serie> listSeries2 = new ArrayList<>();
         listSeries2.add(serie1);
