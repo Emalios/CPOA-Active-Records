@@ -1,6 +1,7 @@
 package activeRecord;
 
 import java.sql.*;
+import java.util.Objects;
 
 public class Personnage {
 
@@ -123,4 +124,16 @@ public class Personnage {
         prep.executeUpdate();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Personnage that = (Personnage) o;
+        return id == that.id && idSerie == that.idSerie && Objects.equals(nom, that.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, id, idSerie);
+    }
 }
