@@ -21,6 +21,3 @@ public class PersonnageTest {
     @After
     public void tearDown() throws Exception {
     }
-
-public class PersonnageTest {
-}

@@ -23,5 +23,7 @@ public class TestSerie {
     }
 
     @Test
-    public static void testFindAll()
+    public static void testFindAll(){
+
+    }
 }
