@@ -23,7 +23,7 @@ public class TestSerie {
     private static List<Serie> listSeries = new ArrayList<>();
 
     /**
-     * méthode exécuté avant chaque test
+     * méthode exécutée avant chaque test
      * @throws SQLException
      */
     @Before
@@ -40,7 +40,7 @@ public class TestSerie {
     }
 
     /**
-     * méthode exécuté après chaque test
+     * méthode exécutée après chaque test
      * @throws SQLException
      */
     @After
@@ -49,13 +49,16 @@ public class TestSerie {
     }
 
     /**
-     * Test s'assurant du bon fonctionne de la méthode findAll, censé retourner tous les tuples contenus dans la table Serie
+     * Test s'assurant du bon fonctionnement de la méthode findAll, censée retourner tous les tuples contenus dans la table Serie
      */
     @Test
     public void testFindAll(){
         assertEquals(listSeries,Serie.findAll());
     }
 
+    /**
+     * Test de la méthode findByName, qui doit retourner tous les tuples qui ont dans le nom la chaîne en paramètre
+     */
     @Test
     public void testFindByName(){
         List<Serie> listSeries2 = new ArrayList<>();
@@ -64,6 +67,9 @@ public class TestSerie {
         assertEquals(listSeries2,Serie.findByName("3"));
     }
 
+    /**
+     * Test de la méthode findByGenre, qui doit retourner tous les tuples qui ont comme genre la chaîne en paramètre
+     */
     @Test
     public void testFindByGenre(){
         List<Serie> listSeries2 = new ArrayList<>();
