@@ -7,13 +7,9 @@ import java.sql.*;
 public class DBConnection {
 
     /**
-     * url de la base de donnees
-     */
-    private static String url;
-    /**
      * nom de la base de donnees
      */
-    private static String nomDB;
+    private static String nomDB = "testSerie";
     /**
      * Le connexion (singleton)
      */
@@ -21,23 +17,21 @@ public class DBConnection {
     /**
      * Le port sur lequel se connecter
      */
-    private static String port;
+    private static String port = "3306";
     /**
      * Le login
      */
-    private static String user, password;
+    private static String user = "root";
+    private static String password = "";
+    /**
+     * url de la base de donnees
+     */
+    private static String url = "jdbc:mysql://localhost:" + port + "/" + nomDB;
 
     /**
      * Constructeur de la classe DBConnection
      */
     private DBConnection() {
-
-        nomDB = "testSerie";
-        user = "root";
-        password = "";
-        port = "3306";
-
-        url = "jdbc:mysql://localhost:" + port + "/" + nomDB;
 
         connection = null;
     }
