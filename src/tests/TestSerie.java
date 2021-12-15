@@ -6,6 +6,7 @@ import activeRecord.Serie;
 import org.junit.*;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,18 @@ import static org.junit.Assert.*;
 
 public class TestSerie {
 
-    Connection connection;
-    Connection connection2;
+    private Connection connection;
+
     private static Serie serie1 = new Serie("serie1","genre1");
     private static Serie serie2 = new Serie("serie2","genre1");
     private static Serie serie3 = new Serie("serie3","genre2");
     private static Serie serie4 = new Serie("serie4","genre3");
     private static List<Serie> listSeries = new ArrayList<>();
 
+    /**
+     * méthode exécuté avant chaque test
+     * @throws SQLException
+     */
     @Before
     public void setUp() throws Exception {
         Serie.createTable();
@@ -34,11 +39,18 @@ public class TestSerie {
         serie4.save();
     }
 
+    /**
+     * méthode exécuté après chaque test
+     * @throws SQLException
+     */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws SQLException {
         Serie.deleteTable();
     }
 
+    /**
+     * Test s'assurant du bon fonctionne de la méthode findAll, censé retourner tous les tuples contenus dans la table Serie
+     */
     @Test
     public void testFindAll(){
         assertEquals(listSeries,Serie.findAll());
@@ -47,7 +59,7 @@ public class TestSerie {
     @Test
     public void testFindByName(){
         List<Serie> listSeries2 = new ArrayList<>();
-        listSeries.add(serie3);
+        listSeries2.add(serie3);
         assertEquals(listSeries,Serie.findByName("serie"));
         assertEquals(listSeries2,Serie.findByName("3"));
     }
@@ -58,6 +70,6 @@ public class TestSerie {
         listSeries2.add(serie1);
         listSeries2.add(serie2);
         assertEquals(listSeries2,Serie.findByGenre("genre1"));
-        assertEquals(listSeries,Serie.findByGenre("genre"));
+        assertEquals(new ArrayList<>(),Serie.findByGenre("genre"));
     }
 }

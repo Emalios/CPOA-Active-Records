@@ -97,14 +97,15 @@ public class Serie {
     public static List<Serie> findByName(String search) {
         List<Serie> series = new ArrayList<>();
         try {
+            // s'il y a un resultat
             Connection con = DBConnection.getConnection();
-            String SQLPrep = "SELECT * FROM Serie WHERE name like '%'+?+'%';";
+            String SQLPrep = "SELECT * FROM serie WHERE nom like ?";
             PreparedStatement prep1 = con.prepareStatement(SQLPrep);
-            prep1.setString(1, search);
-            prep1.execute();
+            prep1.setString(1, "%" + search + "%");
+            prep1.executeQuery();
             ResultSet rs = prep1.getResultSet();
             // s'il y a un resultat
-            if (rs.next()) {
+            while (rs.next()) {
                 String nom = rs.getString("nom");
                 String genre = rs.getString("genre");
                 int resId = rs.getInt("id");
@@ -130,10 +131,10 @@ public class Serie {
             String SQLPrep = "SELECT * FROM Serie WHERE genre=?;";
             PreparedStatement prep1 = con.prepareStatement(SQLPrep);
             prep1.setString(1, genre);
-            prep1.execute();
+            prep1.executeQuery();
             ResultSet rs = prep1.getResultSet();
             // s'il y a un resultat
-            if (rs.next()) {
+            while (rs.next()) {
                 String nom = rs.getString("nom");
                 String gnre = rs.getString("genre");
                 int resId = rs.getInt("id");
