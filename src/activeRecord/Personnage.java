@@ -160,6 +160,7 @@ public class Personnage {
                 int idSerie = rs.getInt("id_serie");
                 if(idSerie == -1) throw new SerieAbsenteException();
                 int resId = rs.getInt("id");
+                prep2.setInt(1, idSerie);
                 ResultSet requestRs = prep2.executeQuery();
                 if(requestRs.next()) {
                     String genreSerie = requestRs.getString("genre");

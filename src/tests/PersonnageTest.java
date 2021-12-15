@@ -85,8 +85,8 @@ public class PersonnageTest {
      */
     @Test
     public void testFindByGenre() throws SerieAbsenteException {
-        String genre = p1.getSerie().getGenre();
-        assertEquals(List.of(p1),Personnage.findByGenre(genre));
+        String genre = p3.getSerie().getGenre();
+        assertEquals(List.of(p3, p4),Personnage.findByGenre(genre));
     }
 
 }
