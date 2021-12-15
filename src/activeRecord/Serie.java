@@ -259,4 +259,17 @@ public class Serie {
         return Objects.hash(id, nom, genre);
     }
 
+    public void setNom(String nouveauNom) throws SQLException {
+        this.nom = nouveauNom;
+        update();
+    }
+
+    public void setGenre(String nouveauGenre) throws SQLException {
+        this.genre = genre;
+        update();
+    }
+
+    public String getNom() {
+        return this.nom;
+    }
 }

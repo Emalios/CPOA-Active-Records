@@ -296,4 +296,9 @@ public class Personnage {
     public int hashCode() {
         return Objects.hash(nom, id, idSerie);
     }
+
+    public void setNom(String nouveauNom) throws SQLException {
+        this.nom = nouveauNom;
+        update();
+    }
 }
