@@ -14,7 +14,7 @@ public class PrincipaleJDBC {
 
     public static void main(String[] args) throws SQLException {
 
-        /*
+
         // variables a modifier en fonction de la base
         String userName = "root";
         String password = "";
@@ -32,8 +32,7 @@ public class PrincipaleJDBC {
         connectionProps.put("password", password);
         String urlDB = "jdbc:mysql://" + serverName + ":";
         urlDB += portNumber + "/" + dbName;
-        Connection connect = DriverManager.getConnection(urlDB, connectionProps);
-         */
+
 
         Connection connect = DBConnection.getConnection();
         // creation de la table Serie
