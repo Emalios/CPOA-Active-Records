@@ -138,6 +138,44 @@ public class Personnage {
         return personnages;
     }
 
+    /**
+     * Se connecte a la base et retourne les personnages qui font partie d'une série dont le genre est égale au genre donnée en paramètre
+     * @param genre genre de la serie
+     * @return liste de personnages
+     */
+    public static List<Personnage> findByGenre(String genre) throws SerieAbsenteException {
+        List<Personnage> personnages = new ArrayList<>();
+        try {
+            Connection con = DBConnection.getConnection();
+            String SQLPrep = "SELECT * FROM Personnage";
+            PreparedStatement prep1 = con.prepareStatement(SQLPrep);
+            prep1.executeQuery();
+            ResultSet rs = prep1.getResultSet();
+            //deuxième requête pour récupèrer genre de la serie
+            String genreRequest = "SELECT genre FROM serie where id=?";
+            PreparedStatement prep2 = con.prepareStatement(genreRequest);
+            // s'il y a un resultat
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                int idSerie = rs.getInt("id_serie");
+                if(idSerie == -1) throw new SerieAbsenteException();
+                int resId = rs.getInt("id");
+                ResultSet requestRs = prep2.executeQuery();
+                if(requestRs.next()) {
+                    String genreSerie = requestRs.getString("genre");
+                    if(genreSerie.equals(genre)) {
+                        Personnage personnage = new Personnage(resId, nom, idSerie);
+                        personnage.id = resId;
+                        personnages.add(personnage);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personnages;
+    }
+
     public int getId() {
         return id;
     }
