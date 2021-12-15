@@ -8,7 +8,7 @@ import java.sql.Connection;
 
 import static org.junit.Assert.*;
 
-public class TestSerie {
+public class PersonnageTest {
 
     Connection connection;
     Connection connection2;
